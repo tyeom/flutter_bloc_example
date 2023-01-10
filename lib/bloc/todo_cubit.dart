@@ -1,25 +1,20 @@
-import 'package:bloc_example/bloc/todo_event.dart';
 import 'package:bloc_example/bloc/todo_state.dart';
 import 'package:bloc_example/models/todo_model.dart';
 import 'package:bloc_example/repository/todo_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
-/// [flutter_bloc 패키지 사용해서 BLoC 패턴 적용]
+/// [flutter_bloc 패키지 사용해서 BLoC 패턴 적용 - Cubit 사용]
 /// 비즈니스 로직 처리
-class TodoBloc extends Bloc<TodoEvent, TodoState> {
+class TodoCubit extends Cubit<TodoState> {
   final TodoRepository repository;
 
   // Repository 생성자 의존성 주입 처리
-  TodoBloc({
+  TodoCubit({
     required this.repository,
-  }) : super(EmptyDataState()) {
-    on<GetTodoListEvent>((_, emit) => _listTodoEvent());
-    on<CreateTodoEvent>((event, _) => _createTodoEvent(event.title));
-    on<DeleteTodoEvent>((event, _) => _deleteTodoEvent(event.uuid));
-  }
+  }) : super(EmptyDataState());
 
-  Future<void> _listTodoEvent() async {
+  Future<void> listTodoEvent() async {
     try {
       // 로딩 상태 반환 [스트림 처리]
       emit(LoadingState());
@@ -38,7 +33,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     }
   }
 
-  Future<void> _createTodoEvent(String title) async {
+  Future<void> createTodoEvent(String title) async {
     try {
       // 현재 상태가 로드 완료 상태 일때만 데이터 추가
       if (state is LoadedState == false) return;
@@ -73,7 +68,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     }
   }
 
-  Future<void> _deleteTodoEvent(String uuid) async {
+  Future<void> deleteTodoEvent(String uuid) async {
     try {
       // 현재 상태가 로드 완료 상태 일때만 데이터 삭제
       if (state is LoadedState == false) return;

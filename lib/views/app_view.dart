@@ -1,4 +1,5 @@
 import 'package:bloc_example/bloc/todo_bloc.dart';
+import 'package:bloc_example/bloc/todo_cubit.dart';
 import 'package:bloc_example/bloc/todo_event.dart';
 import 'package:bloc_example/bloc/todo_state.dart';
 import 'package:bloc_example/views/add_view.dart';
@@ -18,14 +19,17 @@ class _AppViewState extends State<AppView> {
     // TODO: implement initState
     super.initState();
 
-    context.read<TodoBloc>().add(
-          GetTodoListEvent(),
-        );
+    // Cubit 사용
+    context.read<TodoCubit>().listTodoEvent();
+
+    // context.read<TodoBloc>().add(
+    //       GetTodoListEvent(),
+    //     );
   }
 
   Widget _bodyWidget() {
     return Container(
-      child: BlocBuilder<TodoBloc, TodoState>(
+      child: BlocBuilder<TodoCubit, TodoState>(
         builder: (_, state) {
           if (state is EmptyDataState) {
             return Center(child: Text("데이터가 없습니다."));
@@ -55,8 +59,11 @@ class _AppViewState extends State<AppView> {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           )),
                           GestureDetector(
-                            onTap: () => BlocProvider.of<TodoBloc>(context)
-                                .add(DeleteTodoEvent(uuid: item.uuid!)),
+                            // Cubit 사용
+                            onTap: () => BlocProvider.of<TodoCubit>(context)
+                                .deleteTodoEvent(item.uuid!),
+                            // onTap: () => BlocProvider.of<TodoBloc>(context)
+                            //     .add(DeleteTodoEvent(uuid: item.uuid!)),
                             child: const Icon(Icons.delete),
                           )
                         ],
@@ -87,11 +94,13 @@ class _AppViewState extends State<AppView> {
       body: _bodyWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final reuslt = await Navigator.push<String>(
+          final result = await Navigator.push<String>(
               context, MaterialPageRoute(builder: ((context) => AddView())));
 
-          if (reuslt != null && reuslt.isNotEmpty) {
-            context.read<TodoBloc>().add(CreateTodoEvent(title: reuslt));
+          if (result != null && result.isNotEmpty) {
+            // Cubit 사용
+            context.read<TodoCubit>().createTodoEvent(result);
+            //context.read<TodoBloc>().add(CreateTodoEvent(title: result));
           }
         },
         child: const Icon(Icons.add_task),
