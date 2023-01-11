@@ -17,6 +17,6 @@ simple example code that directly implements and applies the BLoC pattern.<br/>
 
 ***
 
-> **my article**<br/>
+### my article
 > [(Flutter) BLoC 패턴 #1](https://blog.arong.info/flutter/2023/01/10/Flutter-BLoC-%ED%8C%A8%ED%84%B4-1.html)<br/>
 > [(Flutter) BLoC 패턴 #2](https://blog.arong.info/flutter/2023/01/11/Flutter-BLoC-%ED%8C%A8%ED%84%B4-2.html)
