@@ -1,3 +1,4 @@
+import 'package:bloc_example/bloc/events_observer.dart';
 import 'package:bloc_example/bloc/todo_bloc.dart';
 import 'package:bloc_example/bloc/todo_cubit.dart';
 import 'package:bloc_example/repository/todo_repository.dart';
@@ -24,6 +25,8 @@ void main() {
     create: (_) => TodoCubit(repository: TodoRepository()),
     child: const MyApp(),
   ));
+
+  Bloc.observer = EventsObserver();
 }
 
 class MyApp extends StatelessWidget {
