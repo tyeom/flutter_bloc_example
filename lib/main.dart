@@ -2,6 +2,7 @@ import 'package:bloc_example/bloc/todo_bloc.dart';
 import 'package:bloc_example/bloc/todo_cubit.dart';
 import 'package:bloc_example/repository/todo_repository.dart';
 import 'package:bloc_example/views/app_view.dart';
+import 'package:bloc_example/views/app_view_no_bloc.dart';
 import 'package:bloc_example/views/app_view_with_normal_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
 
       // flutter_bloc 패키지 사용
       home: const AppView(),
+
+      // bloc 사용 X
+      //home: const AppViewNoBloc(),
     );
   }
 }
